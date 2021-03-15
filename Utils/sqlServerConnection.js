@@ -2,7 +2,10 @@ const mysql = require('mysql');
 const auth = require('../authentication/mysqlAuth.json')
 
 const connection = mysql.createConnection(auth);
-
+connection.connect((err) => {
+    if (err) throw err;
+    console.log('Connected!');
+});
 
 connection.connect(function(err) {
     if (err) throw err;
