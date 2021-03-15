@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const auth = require('../authentication/mysqlAuth.json')
+const auth = require('../../authentication/mysqlAuth.json')
 
 const connection = mysql.createConnection(auth);
 connection.connect((err) => {
