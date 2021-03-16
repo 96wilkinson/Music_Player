@@ -1,33 +1,19 @@
 import React from 'react';
-import {
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
-import home from './home';
-import about from './about';
+import Nav from 'react-bootstrap/Nav'
 
-export default class Nav extends React.Component {
-    render() {
-        return (
-            <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/about">About</Link>
-                        </li>
-                    </ul>
-                </nav>
-                <Switch>
-                    <Route path="/about" component={about}>
-                    </Route>
-                    <Route path="/" component={home}>
-                    </Route>
-                </Switch>
-            </div>
-        );
-    }
+const header = () => {
+    return (
+        <Nav fill variant="tabs" defaultActiveKey="/home">
+            <Nav.Item>
+                <Nav.Link href="/home">Home</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link href="/about">About</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link href="/browseSongs">Browse</Nav.Link>
+            </Nav.Item>
+        </Nav>
+    );
 }
+export default header

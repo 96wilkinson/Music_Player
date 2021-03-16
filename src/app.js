@@ -2,15 +2,20 @@ import React from "react";
 import {
   BrowserRouter as Router, Route
 } from "react-router-dom";
+
 import Nav from './front-end/components/Navbar';
-import songCard from './front-end/components/getSongsCard'
+import getSongsTable from './front-end/components/getSongsTable'
+import home from './front-end/components/home'
+import about from './front-end/components/about'
 
 
 function App() {
   return (
     <Router>
       <Route path='/' component={Nav}></Route>
-      <Route path='/' component={songCard}></Route>
+      <Route path='/home' component={home}></Route>
+      <Route path='/about' component={about}></Route>
+      <Route path='/browseSongs' component={getSongsTable}></Route>
     </Router>
   );
 }
