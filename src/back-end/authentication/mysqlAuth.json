@@ -1,0 +1,7 @@
+{
+    "host": "localhost",
+    "user": "root",
+    "password": "Physics833500!",
+    "database": "music_player",
+    "insecureAuth": true
+}
