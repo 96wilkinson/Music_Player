@@ -1,17 +1,33 @@
-// components/Navbar.js
+import React from 'react';
+import {
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+import home from './home';
+import about from './about';
 
-import React, { useState } from "react";
-import { Navbar } from 'react-bootstrap';
-import { Link } from "react-router-dom";
-
-const Navbar = () => {
-    const [isOpen, setOpen] = useState(false);
-    return (
-        <Navbar bg="dark" variant="dark" expand="md" className='main-nav'>
-            <Link id='brand' className='mr-auto' to="/home">home</Link>
-            <Link className='nav-item' to="/about">about</Link>
-        </Navbar>
-    );
-};
-
-export default Navbar;
+export default class Nav extends React.Component {
+    render() {
+        return (
+            <div>
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/about">About</Link>
+                        </li>
+                    </ul>
+                </nav>
+                <Switch>
+                    <Route path="/about" component={about}>
+                    </Route>
+                    <Route path="/" component={home}>
+                    </Route>
+                </Switch>
+            </div>
+        );
+    }
+}
