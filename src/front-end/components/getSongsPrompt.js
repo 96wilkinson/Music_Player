@@ -1,10 +1,11 @@
 import React from "react";
-import getSongs from '../../back-end/Utils/getSongs'
+import axios from 'axios'
 
 export default class LoggingButton extends React.Component {
-    handleClick() {
-        getSongs();
-    }
+    handleClick () {
+        axios.post('http://localhost:3001/getData')
+          .then(response => console.log(response))
+      }
 
     render() {
         // This syntax ensures `this` is bound within handleClick
