@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav'
 
 const header = () => {
     return (
-        <Nav fill variant="tabs" defaultActiveKey="/home">
+        <Nav fill variant="tabs" >
             <Nav.Item>
                 <Nav.Link href="/home">Home</Nav.Link>
             </Nav.Item>
