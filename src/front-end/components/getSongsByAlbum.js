@@ -9,14 +9,11 @@ export default class getSongsTable extends React.Component {
             albums: [],
             selectedTrack: "nothing as of yet",
             selectedAlbum: "No Album Selected"
-
         }
     }
 
     componentWillMount() {
         arrayDuplicateRemoval().then(response => this.setState({ albums: response }))
-        console.log(this.state.albums)
-
     }
 
     onViewChange = (id) => {
@@ -24,7 +21,7 @@ export default class getSongsTable extends React.Component {
     };
 
     selectedAlbum = (e, data) => {
-        this.setState({selectedAlbum: data.albums})
+        this.setState({ selectedAlbum: data.albums })
     }
 
     render() {
@@ -38,7 +35,7 @@ export default class getSongsTable extends React.Component {
                     ) : (
                         <ul>
                             {albums.map((albums) => (
-                                <li id={albums} onClick={((e) => this.selectedAlbum(e, {albums}))}>{albums}</li>
+                                <li id={albums} onClick={((e) => this.selectedAlbum(e, { albums }))}>{albums}</li>
                             ))}
                         </ul>
                     )}
@@ -47,7 +44,7 @@ export default class getSongsTable extends React.Component {
                 <div>
                     <h3>Current Album: {this.state.selectedAlbum}</h3>
                 </div>
-                
+
             </div>
         );
     }

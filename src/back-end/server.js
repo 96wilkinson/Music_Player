@@ -3,6 +3,7 @@ const app = express();
 
 const port = 3001;
 const getSongs = require('./routes/getSongsRoute')
+const getSongsByAlbum = require('./routes/getSongsByAlbumRoute')
 
 app.listen(port, () => console.log(`Express server currently running on port ${port}`));
 
@@ -16,3 +17,5 @@ app.post('/hello', function (req, res) {
 });
 
 app.use('/', getSongs);
+
+app.use('/', getSongsByAlbum);
