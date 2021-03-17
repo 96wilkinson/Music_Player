@@ -2,8 +2,8 @@ import React from "react";
 import axios from 'axios'
 
 export default class getSongsTable extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             items: [],
             selectedTrack: "nothing as of yet"
@@ -15,14 +15,11 @@ export default class getSongsTable extends React.Component {
     }
 
     onViewChange = (id) => {
-        this.setState({selectedTrack: id}, () => console.log(this.state.id)) 
+        this.setState({selectedTrack: id},() => this.props.selectedTrack(id))
       };
 
     render() {
         let items = this.state.items;
-        let track = this.state.selectedTrack;
-        console.log(items)
-        
         return (
             <div>
                 <h1 id='Table Title'>Songs</h1>
@@ -38,7 +35,7 @@ export default class getSongsTable extends React.Component {
                             <tr key={items.id}>
                                 <td
                                   id={items.Title}
-                                  onClick={() => this.onViewChange(items.Title)}>
+                                  onClick={() => {this.props.onViewChange(items.Title)}}>
                                     Play
                                 </td>
                                 <td>
@@ -51,11 +48,9 @@ export default class getSongsTable extends React.Component {
                                     {items.Time}
                                 </td>
                             </tr>
-
                         )}
                     </tbody>
                 </table>
-                <h3>Playing: {track}</h3>
             </div>
         );
     }
