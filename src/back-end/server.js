@@ -6,6 +6,8 @@ const getSongs = require('./routes/getSongsRoute');
 const getSongsByAlbum = require('./routes/getSongsByAlbumRoute');
 const createPlayList = require('./routes/createPlayListRoute');
 const deletePlayList = require('./routes/deletePlayListRoute');
+const addSongToPlayListRoute = require('./routes/addSongToPlayListRoute');
+const removeSongFromPlayListRoute = require('./routes/removeSongFromPlayListRoute');
 
 app.listen(port, () => console.log(`Express server currently running on port ${port}`));
 
@@ -25,3 +27,7 @@ app.use('/', getSongsByAlbum);
 app.use('/',createPlayList)
 
 app.use('/',deletePlayList)
+
+app.use('/',addSongToPlayListRoute)
+
+app.use('/',removeSongFromPlayListRoute)
