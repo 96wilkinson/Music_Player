@@ -2,8 +2,10 @@ var express = require('express');
 const app = express();
 
 const port = 3001;
-const getSongs = require('./routes/getSongsRoute')
-const getSongsByAlbum = require('./routes/getSongsByAlbumRoute')
+const getSongs = require('./routes/getSongsRoute');
+const getSongsByAlbum = require('./routes/getSongsByAlbumRoute');
+const createPlayList = require('./routes/createPlayListRoute');
+const deletePlayList = require('./routes/deletePlayListRoute');
 
 app.listen(port, () => console.log(`Express server currently running on port ${port}`));
 
@@ -19,3 +21,7 @@ app.post('/hello', function (req, res) {
 app.use('/', getSongs);
 
 app.use('/', getSongsByAlbum);
+
+app.use('/',createPlayList)
+
+app.use('/',deletePlayList)
