@@ -1,12 +1,14 @@
 import React from "react";
 import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
+import songQueReOrder from '../utils/songQueReOrder'
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             songs: [],
+            songQue: [],
             selectedTrack: "nothing as of yet",
             selectedPlayList: "no selected playlist",
             playListName: "",
@@ -19,8 +21,14 @@ export default class getSongsTable extends React.Component {
         this.getPlayLists()
     }
 
-    onViewChange = (id) => {
-        this.setState({ selectedTrack: id }, () => this.props.selectedTrack(id))
+    trackOrchestrator = (id, songs) => {
+        this.props.onViewChange(id, songs)
+        this.songQueSetterPreStep(id, songs)
+    };
+
+    onViewChange = (id, songs) => {
+        this.setState({ selectedTrack: id },
+            () => { this.props.selectedTrack(id) })
     };
 
     selectedPlayList = (e, data) => {
@@ -32,6 +40,17 @@ export default class getSongsTable extends React.Component {
         )
     }
 
+    songQueSetterPreStep = (id, songs) => {
+        console.log("called")
+        songQueReOrder(id, songs).then(response => this.props.songQueSetter(id, response))
+
+    }
+
+    songQueSetter = (id, songs) => {
+        this.setState({ songQue: songs },
+            () => { this.props.songQue(songs) })
+    };
+
     getPlayLists = () => {
         axios.post('http://localhost:3001/getAllPlaylists')
             .then(response => this.setState({ playLists: response.data }))
@@ -40,7 +59,6 @@ export default class getSongsTable extends React.Component {
     getSongsForSelectedPlayList() {
         let urlPreFix = 'http://localhost:3001/getSongsByPlayList?playList='
         let url = urlPreFix + this.state.selectedPlayList
-        console.log(url)
         axios.post(url)
             .then(response => this.setState({ songs: response.data }))
     }
@@ -53,7 +71,6 @@ export default class getSongsTable extends React.Component {
     createNewPlayList = (e) => {
         let urlPreFix = 'http://localhost:3001/createPlayList?playListName='
         let url = urlPreFix + this.state.playListName
-        console.log(url)
         axios.post(url)
             .then(alert(`Created Playlist: ' + ${this.state.playListName}
             
@@ -64,7 +81,6 @@ export default class getSongsTable extends React.Component {
     deletePlaylist = (playListName) => {
         let urlPreFix = 'http://localhost:3001/deletePlayList?playListName='
         let url = urlPreFix + playListName
-        console.log(url)
         axios.post(url)
             .then(alert('Removed Playlist: ' + playListName))
 
@@ -137,9 +153,10 @@ export default class getSongsTable extends React.Component {
                             </tr>
                             {songs.map(songs =>
                                 <tr key={songs.id}>
-                                    <td><button
+                                    <td>
+                                    <button
                                         id={songs.Title}
-                                        onClick={() => { this.props.onViewChange(songs.Title) }}>
+                                        onClick={() => { this.trackOrchestrator(songs.Title, this.state.songs) }}>
                                         Play
                                     </button>
 

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
+import songQueReOrder from '../utils/songQueReOrder'
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
@@ -20,9 +21,25 @@ export default class getSongsTable extends React.Component {
             .then(response => this.setState({ playLists: response.data }))
     }
 
-    onViewChange = (id) => {
-        this.setState({ selectedTrack: id }, () => this.props.selectedTrack(id))
-        this.setState({ songQue: this.state.songs}, () => this.props.songQue(this.state.songs))
+    trackOrchestrator = (id, songs) => {
+        this.props.onViewChange(id, songs)
+        this.songQueSetterPreStep(id, songs)
+    };
+
+    onViewChange = (id, songs) => {
+        this.setState({ selectedTrack: id },
+            () => { this.props.selectedTrack(id) })
+    };
+
+    songQueSetterPreStep = (id, songs) => {
+        console.log("called")
+        songQueReOrder(id, songs).then(response => this.props.songQueSetter(id, response))
+
+    }
+
+    songQueSetter = (id, songs) => {
+        this.setState({ songQue: songs },
+            () => { this.props.songQue(songs) })
     };
 
     addSongToPlayList = (Title, Artist, album, Time, TABLE_NAME) => {
@@ -50,10 +67,11 @@ export default class getSongsTable extends React.Component {
                             </tr>
                             {songs.map(songs =>
                                 <tr key={songs.id}>
-                                    <td><button
-                                        id={songs.Title}
-                                        onClick={() => { this.props.onViewChange(songs.Title) }}>
-                                        Play
+                                    <td>
+                                        <button
+                                            id={songs.Title}
+                                            onClick={() => { this.trackOrchestrator(songs.Title, this.state.songs) }}>
+                                            Play
                                     </button>
 
                                     </td>

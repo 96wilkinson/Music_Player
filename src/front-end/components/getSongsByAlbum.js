@@ -2,12 +2,14 @@ import React from "react";
 import arrayDuplicateRemoval from '../utils/arrayDuplicateRemoval'
 import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
+import songQueReOrder from '../utils/songQueReOrder'
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             songs: [],
+            songQue: [],
             albums: [],
             selectedTrack: "nothing as of yet",
             selectedAlbum: "No Album Selected",
@@ -23,10 +25,14 @@ export default class getSongsTable extends React.Component {
             .then(response => this.setState({ playLists: response.data }))
     }
 
+    trackOrchestrator = (id, songs) => {
+        this.props.onViewChange(id, songs)
+        this.songQueSetterPreStep(id, songs)
+    };
 
-
-    onViewChange = (id) => {
-        this.setState({ selectedTrack: id }, () => this.props.selectedTrack(id))
+    onViewChange = (id, songs) => {
+        this.setState({ selectedTrack: id },
+            () => { this.props.selectedTrack(id) })
     };
 
     selectedAlbum = (e, data) => {
@@ -36,6 +42,17 @@ export default class getSongsTable extends React.Component {
             }
         )
     }
+
+    songQueSetterPreStep = (id, songs) => {
+        console.log("called")
+        songQueReOrder(id, songs).then(response => this.props.songQueSetter(id, response))
+
+    }
+
+    songQueSetter = (id, songs) => {
+        this.setState({ songQue: songs },
+            () => { this.props.songQue(songs) })
+    };
 
     getSongsForSelectedAlbum() {
         let urlPreFix = 'http://localhost:3001/getSongsByAlbum?album='
@@ -83,9 +100,10 @@ export default class getSongsTable extends React.Component {
                             </tr>
                             {songs.map(songs =>
                                 <tr key={songs.id}>
-                                    <td><button
+                                    <td>
+                                        <button
                                         id={songs.Title}
-                                        onClick={() => { this.props.onViewChange(songs.Title) }}>
+                                        onClick={() => { this.trackOrchestrator(songs.Title, this.state.songs) }}>
                                         Play
                                     </button>
 
