@@ -1,5 +1,4 @@
 import React from "react";
-import arrayDuplicateRemoval from '../utils/arrayDuplicateRemoval'
 import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 
@@ -8,60 +7,124 @@ export default class getSongsTable extends React.Component {
         super(props);
         this.state = {
             songs: [],
-            albums: [],
             selectedTrack: "nothing as of yet",
-            selectedAlbum: "No Album Selected",
+            selectedPlayList: "no selected playlist",
+            playListName: "",
+            loading: false,
+            formCreation: false,
             playLists: []
-            
         }
     }
-
     componentWillMount() {
-        arrayDuplicateRemoval().then(response => this.setState({ albums: response }))
-
-        axios.post('http://localhost:3001/getAllPlaylists')
-        .then(response => this.setState({ playLists: response.data }))
+        this.getPlayLists()
     }
 
     onViewChange = (id) => {
         this.setState({ selectedTrack: id }, () => this.props.selectedTrack(id))
     };
 
-    selectedAlbum = (e, data) => {
-        this.setState({ selectedAlbum: data.albums })
-        let url = 'http://localhost:3001/getSongsByAlbum?album='
-        axios.post(url + this.state.selectedAlbum)
+    selectedPlayList = (e, data) => {
+        this.setState(
+            { selectedPlayList: data.playLists.playlist },
+            () => {
+                this.getSongsForSelectedPlayList()
+            }
+        )
+    }
+
+    getPlayLists = () => {
+        axios.post('http://localhost:3001/getAllPlaylists')
+            .then(response => this.setState({ playLists: response.data }))
+    }
+
+    getSongsForSelectedPlayList() {
+        let urlPreFix = 'http://localhost:3001/getSongsByPlayList?playList='
+        let url = urlPreFix + this.state.selectedPlayList
+        console.log(url)
+        axios.post(url)
             .then(response => this.setState({ songs: response.data }))
-        console.log(this.state.songs)
     }
 
     addSongToPlayList = (Title, Artist, album, Time, TABLE_NAME) => {
         axios.post(`http://localhost:3001/addSongToPlayList?playListName=${TABLE_NAME}&Title=${Title}&Artist=${Artist}&Album=${album}&Time=${Time}`)
-
         alert(`Added To Playlist: ${TABLE_NAME}`);
     }
 
+    createNewPlayList = (e) => {
+        let urlPreFix = 'http://localhost:3001/createPlayList?playListName='
+        let url = urlPreFix + this.state.playListName
+        console.log(url)
+        axios.post(url)
+            .then(alert(`Created Playlist: ' + ${this.state.playListName}
+            
+            Allow some time and then refresh to see new playlist`))
+         e.preventDefault(); //
+    }
+
+    deletePlaylist = (playListName) => {
+        let urlPreFix = 'http://localhost:3001/deletePlayList?playListName='
+        let url = urlPreFix + playListName
+        console.log(url)
+        axios.post(url)
+            .then(alert('Removed Playlist: ' + playListName))
+
+    }
+
+
+    setPlayListState = (e) => {
+        this.setState({ playListName: e.target.value })
+    }
+
     render() {
-        let albums = this.state.albums
         let songs = this.state.songs;
         let playLists = this.state.playLists
         return (
             <div>
-                <h1 id='Table Title'>Albums</h1>
+                <h1 id='Table Title'>Playlists</h1>
                 <div>
-                    {albums === undefined ? (
-                        <h3>no albums detected</h3>
+
+                    {this.state.formCreation === false ?
+                        <button onClick={() => {
+                            this.setState({
+                                formCreation: true
+                            })
+                        }}>Create A PlayList</button> :
+                        <div>
+                            <button onClick={() => {
+                                this.setState({
+                                    formCreation: false
+                                })
+                            }}>Finished creating PlayList</button>
+
+                            <form onSubmit={this.createNewPlayList}>
+                                <label>
+                                    Playlist Name:
+                          <input type="text" value={this.state.playListName} onChange={this.setPlayListState} />
+                                </label>
+                                <input type="submit" value="Submit" />
+                            </form>
+                        </div>
+                    }
+
+                    {playLists === undefined ? (
+                        <h3>no playLists detected</h3>
                     ) : (
-                        <ul>
-                            {albums.map((albums) => (
-                                <li id={albums} onClick={((e) => this.selectedAlbum(e, { albums }))}>{albums}</li>
+                        <table>
+                            <tr>
+                                <th>Playlist Name</th>
+                                <th>Remove Playlist</th>
+                            </tr>
+                            {playLists.map((playLists) => (
+                                <tr>
+                                    <td key={playLists.id} id={playLists.playlist} onClick={((e) => this.selectedPlayList(e, { playLists }))}>{playLists.playlist}</td>
+                                    <td ><button onClick={()=> this.deletePlaylist(playLists.playlist)}>Remove Playlist</button></td>
+                                </tr>
                             ))}
-                        </ul>
+                        </table>
                     )}
 
                 </div>
                 <div>
-                    <h3>Current Album: {this.state.selectedAlbum}</h3>
                     <table id='Songs'>
                         <tbody>
                             <tr>
@@ -70,7 +133,7 @@ export default class getSongsTable extends React.Component {
                                 <th>Artist</th>
                                 <th>Album</th>
                                 <th>Length of the song</th>
-                                <th></th>
+                                <th>Playlist</th>
                             </tr>
                             {songs.map(songs =>
                                 <tr key={songs.id}>
@@ -94,21 +157,25 @@ export default class getSongsTable extends React.Component {
                                         {songs.Time}
                                     </td>
                                     <td>
-                                        <DropdownButton id="dropdown-basic-button" title="Add To Playlist">
-                                            {playLists.map(playLists =>
-                                                <Dropdown.Item
-                                                    onClick={() => { this.addSongToPlayList(songs.Title, songs.Artist, songs.album, songs.Time, playLists.TABLE_NAME) }}>
-                                                    {playLists.TABLE_NAME}
-                                                </Dropdown.Item>
-                                            )}
-                                        </DropdownButton>
+                                        {playLists === undefined ? (
+                                            <h3>no playLists detected</h3>
+                                        ) : (
+                                            <DropdownButton id="dropdown-basic-button" title="Add To Playlist">
+                                                {playLists.map(playLists =>
+                                                    <Dropdown.Item
+                                                        onClick={() => { this.addSongToPlayList(songs.Title, songs.Artist, songs.Album, songs.Time, playLists.playlist) }}>
+                                                        {playLists.playlist}
+                                                    </Dropdown.Item>
+                                                )}
+                                            </DropdownButton>
+                                        )}
+
                                     </td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
                 </div>
-
             </div>
         );
     }

@@ -15,7 +15,10 @@ module.exports = async function getAllPlaylists() {
             if(value[i].TABLE_NAME === 'album'){
 
             } else {
-                arr.push(value[i])
+                arr.push({
+                    id: i,
+                    playlist: value[i].TABLE_NAME
+                })
             }
         }
         console.log(arr)

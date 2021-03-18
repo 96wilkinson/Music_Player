@@ -12,7 +12,7 @@ export default class getSongsTable extends React.Component {
             selectedTrack: "nothing as of yet",
             selectedAlbum: "No Album Selected",
             playLists: []
-            
+
         }
     }
 
@@ -20,19 +20,28 @@ export default class getSongsTable extends React.Component {
         arrayDuplicateRemoval().then(response => this.setState({ albums: response }))
 
         axios.post('http://localhost:3001/getAllPlaylists')
-        .then(response => this.setState({ playLists: response.data }))
+            .then(response => this.setState({ playLists: response.data }))
     }
+
+
 
     onViewChange = (id) => {
         this.setState({ selectedTrack: id }, () => this.props.selectedTrack(id))
     };
 
     selectedAlbum = (e, data) => {
-        this.setState({ selectedAlbum: data.albums })
-        let url = 'http://localhost:3001/getSongsByAlbum?album='
-        axios.post(url + this.state.selectedAlbum)
+        this.setState({ selectedAlbum: data.albums },
+            () => {
+                this.getSongsForSelectedAlbum()
+            }
+        )
+    }
+
+    getSongsForSelectedAlbum() {
+        let urlPreFix = 'http://localhost:3001/getSongsByAlbum?album='
+        let url = urlPreFix + this.state.selectedAlbum
+        axios.post(url)
             .then(response => this.setState({ songs: response.data }))
-        console.log(this.state.songs)
     }
 
     addSongToPlayList = (Title, Artist, album, Time, TABLE_NAME) => {
@@ -97,8 +106,8 @@ export default class getSongsTable extends React.Component {
                                         <DropdownButton id="dropdown-basic-button" title="Add To Playlist">
                                             {playLists.map(playLists =>
                                                 <Dropdown.Item
-                                                    onClick={() => { this.addSongToPlayList(songs.Title, songs.Artist, songs.album, songs.Time, playLists.TABLE_NAME) }}>
-                                                    {playLists.TABLE_NAME}
+                                                    onClick={() => { this.addSongToPlayList(songs.Title, songs.Artist, songs.Album, songs.Time, playLists.playlist) }}>
+                                                    {playLists.playlist}
                                                 </Dropdown.Item>
                                             )}
                                         </DropdownButton>

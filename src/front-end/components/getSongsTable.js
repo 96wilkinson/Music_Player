@@ -7,6 +7,7 @@ export default class getSongsTable extends React.Component {
         super(props);
         this.state = {
             songs: [],
+            songQue: [],
             selectedTrack: "nothing as of yet",
             playLists: []
         }
@@ -21,6 +22,7 @@ export default class getSongsTable extends React.Component {
 
     onViewChange = (id) => {
         this.setState({ selectedTrack: id }, () => this.props.selectedTrack(id))
+        this.setState({ songQue: this.state.songs}, () => this.props.songQue(this.state.songs))
     };
 
     addSongToPlayList = (Title, Artist, album, Time, TABLE_NAME) => {
@@ -71,8 +73,8 @@ export default class getSongsTable extends React.Component {
                                         <DropdownButton id="dropdown-basic-button" title="Add To Playlist">
                                             {playLists.map(playLists =>
                                                 <Dropdown.Item
-                                                    onClick={() => { this.addSongToPlayList(songs.Title, songs.Artist, songs.album, songs.Time, playLists.TABLE_NAME) }}>
-                                                    {playLists.TABLE_NAME}
+                                                    onClick={() => { this.addSongToPlayList(songs.Title, songs.Artist, songs.Album, songs.Time, playLists.playlist) }}>
+                                                    {playLists.playlist}
                                                 </Dropdown.Item>
                                             )}
                                         </DropdownButton>

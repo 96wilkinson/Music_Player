@@ -7,7 +7,6 @@ export default class trackSelector extends React.Component {
         return (
             <div>
                 <h3>Currently Playing: {track}</h3>
-
             </div>
         )
     }
