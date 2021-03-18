@@ -41,9 +41,7 @@ export default class getSongsTable extends React.Component {
     }
 
     songQueSetterPreStep = (id, songs) => {
-        console.log("called")
         songQueReOrder(id, songs).then(response => this.props.songQueSetter(id, response))
-
     }
 
     songQueSetter = (id, songs) => {
