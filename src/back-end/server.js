@@ -2,13 +2,14 @@ var express = require('express');
 const app = express();
 
 const port = 3001;
-const getSongs = require('./routes/getSongsRoute');
-const getSongsByAlbum = require('./routes/getSongsByAlbumRoute');
-const createPlayList = require('./routes/createPlayListRoute');
-const deletePlayList = require('./routes/deletePlayListRoute');
+const getSongsRoute = require('./routes/getSongsRoute');
+const getSongsByAlbumRoute = require('./routes/getSongsByAlbumRoute');
+const createPlayListRoute = require('./routes/createPlayListRoute');
+const deletePlayListRoute = require('./routes/deletePlayListRoute');
 const addSongToPlayListRoute = require('./routes/addSongToPlayListRoute');
 const removeSongFromPlayListRoute = require('./routes/removeSongFromPlayListRoute');
 const getAllPlaylistsRoute = require('./routes/getAllPlaylistsRoute');
+const getSongsByPlayListRoute = require('./routes/getSongByPlayListRoute')
 
 app.listen(port, () => console.log(`Express server currently running on port ${port}`));
 
@@ -21,16 +22,18 @@ app.post('/hello', function (req, res) {
     res.send("You just called the post method at '/hello'!\n");
 });
 
-app.use('/', getSongs);
+app.use('/', getSongsRoute);
 
-app.use('/', getSongsByAlbum);
+app.use('/', getSongsByAlbumRoute);
 
-app.use('/',createPlayList)
+app.use('/',createPlayListRoute)
 
-app.use('/',deletePlayList)
+app.use('/',deletePlayListRoute)
 
 app.use('/',addSongToPlayListRoute)
 
 app.use('/',removeSongFromPlayListRoute)
 
 app.use('/', getAllPlaylistsRoute);
+
+app.use('/', getSongsByPlayListRoute);

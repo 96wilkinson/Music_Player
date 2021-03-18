@@ -30,11 +30,16 @@ export default class Parent extends React.Component {
                         listType: "album"
                     })
                 }}>Albums</button>
+                <button onClick={() => {
+                    this.setState({
+                        listType: "playlist"
+                    })
+                }}>Playlists</button>
                 <div>
                     {this.state.listType === 'song' ? (
-                        <div><GetSongsTable onViewChange={this.onViewChange} listType={this.state.listType}/></div>
-                    ): (
-                        <div><GetSongsByAlbum onViewChange={this.onViewChange} listType={this.state.listType}/></div>
+                        <div><GetSongsTable onViewChange={this.onViewChange} listType={this.state.listType} /></div>
+                    ) : (
+                        <div><GetSongsByAlbum onViewChange={this.onViewChange} listType={this.state.listType} /></div>
                     )}
                 </div>
                 <div>
