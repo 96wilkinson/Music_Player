@@ -51,7 +51,7 @@ export default class Parent extends React.Component {
                     }
                 </div>
                 <div>
-                    <TrackSelector selectedTrack={this.state.selectedTrack} songQue={this.state.songQue} />
+                    <TrackSelector selectedTrack={this.state.selectedTrack} songQue={this.state.songQue} onViewChange={this.onViewChange}/>
                 </div>
             </div>
         )
