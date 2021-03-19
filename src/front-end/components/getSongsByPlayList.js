@@ -3,6 +3,7 @@ import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import songQueReOrder from '../utils/songQueReOrder'
 import secondsIntoTime from '../utils/secondsIntoTime'
+import '../styling/table.css'
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
