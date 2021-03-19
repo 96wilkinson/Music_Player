@@ -3,6 +3,7 @@ import arrayDuplicateRemoval from '../utils/arrayDuplicateRemoval'
 import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import songQueReOrder from '../utils/songQueReOrder'
+import secondsIntoTime from '../utils/secondsIntoTime'
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class getSongsTable extends React.Component {
             songs: [],
             songQue: [],
             albums: [],
+            time: {minutes: 0, seconds: 0},
             selectedTrack: "nothing as of yet",
             selectedAlbum: "No Album Selected",
             playLists: []
@@ -26,6 +28,7 @@ export default class getSongsTable extends React.Component {
     }
 
     trackOrchestrator = (id, songs) => {
+        secondsIntoTime(id,songs).then(response => this.props.songTimeSetter(response));
         this.props.onViewChange(id, songs)
         this.songQueSetterPreStep(id, songs)
     };
@@ -52,6 +55,11 @@ export default class getSongsTable extends React.Component {
         this.setState({ songQue: songs },
             () => { this.props.songQue(songs) })
     };
+
+    songTimeSetter = (time) => {
+        this.setState({time: time},
+            () => { this.props.time(time) })
+    }
 
     getSongsForSelectedAlbum() {
         let urlPreFix = 'http://localhost:3001/getSongsByAlbum?album='

@@ -9,9 +9,11 @@ export default class Parent extends React.Component {
         super(props);
         this.onViewChange = this.onViewChange.bind(this)
         this.songQueSetter = this.songQueSetter.bind(this)
+        this.songTimeSetter = this.songTimeSetter.bind(this)
         this.state = {
             songs: [],
             songQue: [],
+            time: {minutes: 0, seconds: 0},
             selectedTrack: "nothing as of yet",
             listType: "song"
         }
@@ -23,6 +25,10 @@ export default class Parent extends React.Component {
     songQueSetter = (id, songs) =>{
         this.setState({ songQue: songs})
     };
+
+    songTimeSetter = (time) => {
+        this.setState({time: time})
+    }
 
     render() {
         return (
@@ -44,14 +50,14 @@ export default class Parent extends React.Component {
                 }}>Playlists</button>
                 <div>
                     {this.state.listType === 'song' ?
-                        <div><GetSongsTable onViewChange={this.onViewChange} songQueSetter={this.songQueSetter} listType={this.state.listType} /></div>
+                        <div><GetSongsTable onViewChange={this.onViewChange} songQueSetter={this.songQueSetter} songTimeSetter={this.songTimeSetter} listType={this.state.listType} /></div>
                         : this.state.listType === 'album' ?
-                        <div><GetSongsByAlbum onViewChange={this.onViewChange} songQueSetter={this.songQueSetter} listType={this.state.listType} /></div>
-                            : <div><GetSongsByPlayList onViewChange={this.onViewChange} songQueSetter={this.songQueSetter} listType={this.state.listType} /></div>
+                        <div><GetSongsByAlbum onViewChange={this.onViewChange} songQueSetter={this.songQueSetter} songTimeSetter={this.songTimeSetter} listType={this.state.listType} /></div>
+                            : <div><GetSongsByPlayList onViewChange={this.onViewChange} songQueSetter={this.songQueSetter} songTimeSetter={this.songTimeSetter} listType={this.state.listType} /></div>
                     }
                 </div>
                 <div>
-                    <TrackSelector selectedTrack={this.state.selectedTrack} songQue={this.state.songQue} onViewChange={this.onViewChange}/>
+                    <TrackSelector selectedTrack={this.state.selectedTrack} songQue={this.state.songQue} time={this.state.time} songQueSetter={this.songQueSetter} songTimeSetter={this.songTimeSetter} onViewChange={this.onViewChange}/>
                 </div>
             </div>
         )

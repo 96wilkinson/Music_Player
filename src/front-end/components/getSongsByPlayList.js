@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import songQueReOrder from '../utils/songQueReOrder'
+import secondsIntoTime from '../utils/secondsIntoTime'
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class getSongsTable extends React.Component {
             songQue: [],
             selectedTrack: "nothing as of yet",
             selectedPlayList: "no selected playlist",
+            time: {minutes: 0, seconds: 0},
             playListName: "",
             loading: false,
             formCreation: false,
@@ -22,6 +24,7 @@ export default class getSongsTable extends React.Component {
     }
 
     trackOrchestrator = (id, songs) => {
+        secondsIntoTime(id,songs).then(response => this.props.songTimeSetter(response));
         this.props.onViewChange(id, songs)
         this.songQueSetterPreStep(id, songs)
     };
