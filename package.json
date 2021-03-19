@@ -27,7 +27,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "cd src && cd back-end &&  node server.js",
-    "server-trace": "cd src && cd back-end &&  node --trace-warnings server.js"
+    "server-trace": "cd src && cd back-end &&  node --trace-warnings server.js",
+    "mocha": "mocha src/back-end/test/",
+    "selenium": "node src/front-end/test/basic.js"
   },
   "eslintConfig": {
     "extends": [
