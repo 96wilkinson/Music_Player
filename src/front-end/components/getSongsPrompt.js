@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios'
 
-export default class LoggingButton extends React.Component {
+export default class getSongsPrompt extends React.Component {
     handleClick () {
         axios.post('http://localhost:3001/getData')
           .then(response => console.log(response))
