@@ -13,13 +13,15 @@ export default class trackSelector extends React.Component {
 
     songQueSetterPreStep = () => {
         this.setState({ songQueList: this.props.songQue },
-            () => { shuffleFunction(this.state.songQueList) })
+            () => { shuffleFunction(this.state.songQueList).then(response => this.setState({songQueList: response})) })
         // shuffleFunction(this.props.songQue).then(response => console.log(response))
     }
 
     render() {
         let track = this.props.selectedTrack
         let que = this.props.songQue
+        let shuffledQue = this.state.songQueList
+        console.log(shuffledQue)
         return (
             <div>
 
