@@ -57,8 +57,9 @@ The Music player must:
 #### Plans for work that fell through due to time
 
 - focused on the functuionality as key so would like to "beautify the application"
-- get a bar of progress that the user can then manipulate
-- More extensive test coverage
+- get a bar of progress that the user can then manipulate for the currently playing song
+- More extensive test coverage of the back end.
+- use of selanium to test the front end.
 - Use of sonarqube
 - Place this on amazons ec2 instance
 - Load songs onto the application when find a suitable tool for mp3 downloads

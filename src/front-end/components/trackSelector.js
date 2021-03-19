@@ -1,6 +1,6 @@
 import React from "react";
 import shuffleFunction from '../utils/shuffleFunction';
-import { Container, Card, Row } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import previousSong from '../utils/previousSong';
 import nextSong from '../utils/nextSong';
 import secondsIntoTime from '../utils/secondsIntoTime'
@@ -77,10 +77,10 @@ export default class trackSelector extends React.Component {
 
                 <Container>
                     <Card>
-                        <Row>
+                        <Card.Body>
                             <h3>Currently Playing: {track}</h3>
-                        </Row>
-                        <Row>
+                        </Card.Body>
+                        <Card.Body>
                             {this.props.selectedTrack === "nothing as of yet" ?
                                 <h3>    timing Placeholder</h3> :
                                 <div>
@@ -88,8 +88,8 @@ export default class trackSelector extends React.Component {
                                     <h3>Minutes: {time.minutes} Seconds: {time.seconds}</h3>
                                 </div>
                             }
-                        </Row>
-                        <Row>
+                        </Card.Body>
+                        <Card.Body>
                             <button onClick={() => { this.previousSong() }}>
                                 Previous Song
                             </button>
@@ -101,7 +101,7 @@ export default class trackSelector extends React.Component {
                             <button onClick={() => { this.nextSong() }}>
                                 Next Song
                             </button>
-                        </Row>
+                        </Card.Body>
                     </Card>
                 </Container>
                 {this.props.selectedTrack === "nothing as of yet" ?
@@ -112,18 +112,18 @@ export default class trackSelector extends React.Component {
                         <Container>
                             {que.map((que) => (
                                 <Card id={que} >
-                                    <Row>
+                                    <Card.Body>
                                         {que.Title}
-                                    </Row>
+                                    </Card.Body>
                                 </Card>
                             ))}
                         </Container>
                         : <Container>
                             {que.map((que) => (
                                 <Card id={que} >
-                                    <Row>
+                                    <Card.Body>
                                         {que.Title}
-                                    </Row>
+                                    </Card.Body>
                                 </Card>
                             ))}
                         </Container>
