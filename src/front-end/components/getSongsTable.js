@@ -3,6 +3,7 @@ import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import songQueReOrder from '../utils/songQueReOrder'
 import secondsIntoTime from '../utils/secondsIntoTime'
+import '../styling/table.css'
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
@@ -60,7 +61,7 @@ export default class getSongsTable extends React.Component {
         let playLists = this.state.playLists
         return (
             <div>
-                <h1 id='Table Title'>Songs</h1>
+                <h1 id='tableSongs'>Songs</h1>
                 <div>
                     <table id='Songs'>
                         <tbody>

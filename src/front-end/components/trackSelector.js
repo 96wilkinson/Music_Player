@@ -82,7 +82,7 @@ export default class trackSelector extends React.Component {
                         </Card.Body>
                         <Card.Body>
                             {this.props.selectedTrack === "nothing as of yet" ?
-                                <h3>    timing Placeholder</h3> :
+                                <div></div> :
                                 <div>
                                     <h3>Time Remaining: </h3>
                                     <h3>Minutes: {time.minutes} Seconds: {time.seconds}</h3>
