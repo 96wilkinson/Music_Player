@@ -1,6 +1,6 @@
 import React from "react";
 import shuffleFunction from '../utils/shuffleFunction';
-import { Container, Card, Row, Col } from 'react-bootstrap';
+import { Container, Card, Row } from 'react-bootstrap';
 import previousSong from '../utils/previousSong';
 import nextSong from '../utils/nextSong';
 import secondsIntoTime from '../utils/secondsIntoTime'
