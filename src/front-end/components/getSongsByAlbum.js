@@ -4,6 +4,7 @@ import axios from 'axios'
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import songQueReOrder from '../utils/songQueReOrder'
 import secondsIntoTime from '../utils/secondsIntoTime'
+import { Container, Card } from 'react-bootstrap';
 
 export default class getSongsTable extends React.Component {
     constructor(props) {
@@ -85,11 +86,13 @@ export default class getSongsTable extends React.Component {
                     {albums === undefined ? (
                         <h3>no albums detected</h3>
                     ) : (
-                        <ul>
+                        <Container>
                             {albums.map((albums) => (
-                                <li id={albums} onClick={((e) => this.selectedAlbum(e, { albums }))}>{albums}</li>
+                                <Card>
+                                <Card.Body id={albums} onClick={((e) => this.selectedAlbum(e, { albums }))}>{albums}</Card.Body>
+                                </Card>
                             ))}
-                        </ul>
+                        </Container>
                     )}
 
                 </div>
