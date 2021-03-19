@@ -21,7 +21,6 @@ module.exports = async function getAllPlaylists() {
                 })
             }
         }
-        console.log(arr)
         return arr
     })
 }
