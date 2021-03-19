@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+Music Player Application
+How to start the application
+download all the files. If any files are mising go to This Repository and select the correct branch.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+set the directory from your workspace to the Music_Player folder. Now run npm run start in one terminal and npm server in another. This will start the front and back end respectivly.
 
-## Available Scripts
+Background
+Rebmem Engineering has provided electronic goods for several years to third parties and are now looking to expand their offering to supply interactive goods.
+They produce portable storage devices and have worked on a new device that will allow the storage and playback of music.
+They would like a simple interface built to interact with the device to allow the continuation of development. (Interaction with the firmware will be discussed and implemented at phase two.)
+The client is a large organisation and if this goes well could mean a large contract.
+Your role will be to take on the development of the interface ensuring that you meet the first phase requirements; any additional elements you can include will help but the deadline is close.
+The hardware is still being tested so changes will be required as it is developed. Ensure that you fully document each step to allow us to carry out any changes later.
+Requirements
+The Music player must:
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Allow music playback.
+Allow music playback when the device becomes idle. The device will automatically switch to idle mode to save power if no user interaction is recorded over a 30 second period.
+Have a random shuffle function.
+Have a search option for audio files within a media database.
+List display options by song track or album.
+Allow for a Creation of a song play list.
+Have user control over playback
+Diary Whilst on the Project
+Day 1
+created the wireframes using Draw.io
+attempted to make UML diagrams but couldnt quite figure out the process in my head or via diagrams.
+Decided to make a start on some things that would be needed regardless
+created a repo and cloned it down.
+downloaded an installer for MySql but had issues getting it to run or even work
+Continued to work with mysql but had difficulty with the syntax of mysql and the fact that ‘ and ` look very similar. Put this down to rustyness
+had some issues when it came to react and out of touch on how to start and intergrate it with my application
+Day 2
+PC had many issues when starting today and lasted until 10:30am
+Worked to get the front end to do mysql requests but learned that it wasnt able to on the same endpoint.
+split the back and front end running on different endpoints
+able to send requests to the back end via postman to getSongs
+able to get songs into a dynamic table on the front endpoint
+Day 3
+Mysql server stopped unexpendently and wouldnt start by normal commands so had to use administrator via powershell to start via:net start MySQL80.
+Manged to get albums to work
+Day 4
+got playlist to work, showing songs, creating and deleting. However there is a loading issue for the items and a window.location.reload will create more issues
+due to props errors shuffle took longer than thought
+Day 5
+Got shuffle to work correctly
+got the time to work correctly
+Wrote the readme and coppied the diary into it
+Worked on a few tests
+Plans for work that fell through due to time
+focused on the functuionality as key so would like to “beautify the application”
+get a bar of progress that the user can then manipulate
+More extensive test coverage
+Use of sonarqube
+Place this on amazons ec2 instance
+Load songs onto the application when find a suitable tool for mp3 downloads
+Commenting of functions so that i can come back to it later
+May Work on the application after sending it off to a point where I am happy and will update the readme.
