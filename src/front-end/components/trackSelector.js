@@ -5,15 +5,21 @@ import previousSong from '../utils/previousSong';
 import nextSong from '../utils/nextSong';
 import secondsIntoTime from '../utils/secondsIntoTime'
 import timeInterval from '../utils/timerInterval'
+import ProgressBar from './progressBar'
+import '../styling/trackSelector.css'
+import '../styling/progressBar.css'
+
 
 export default class trackSelector extends React.Component {
     constructor(props) {
         super(props);
+        this.setPercentage = this.setPercentage.bind(this)
         this.state = {
             selectedTrack: "nothing as of yet",
-            time: { minutes: 0, seconds: 0 },
+            time: {minutes: 0, seconds: 0, totalTime: 0},
             songQueList: [],
-            isPlaying: false
+            isPlaying: false,
+            percentage: 0
         }
     }
 
@@ -43,7 +49,7 @@ export default class trackSelector extends React.Component {
     startPlaying = () => {
         this.setState({ isPlaying: true })
         if ((this.state.time.minutes !== 0 && this.state.time.seconds !== 0) || this.state.isPlaying === false) {
-            this.interval = setInterval(() => timeInterval(this.props.time.minutes, this.props.time.seconds)
+            this.interval = setInterval(() => timeInterval(this.props.time.minutes, this.props.time.seconds,this.props.time.totalTime)
                 .then(response => this.timeIntervalReached(response)), 1000);
         }
         else {
@@ -52,8 +58,14 @@ export default class trackSelector extends React.Component {
     }
 
     timeIntervalReached = (input) => {
-            this.setState({ time: input },
-                () => { this.props.songTimeSetter(input) })
+        this.setState({ time: input.time },
+            () => { this.props.songTimeSetter(input.time) })
+        this.setPercentage(input)
+    }
+
+    setPercentage = (input) => {
+        this.setState({percentage: input.percentage})
+        console.log(this.state.percentage,this.props.percentage);
     }
 
     clearInterval = () => {
@@ -72,44 +84,13 @@ export default class trackSelector extends React.Component {
         let track = this.props.selectedTrack
         let time = this.props.time
         let que = this.props.songQue
+        let percentage = this.props.percentage
         return (
             <div>
-
-                <Container>
-                    <Card>
-                        <Card.Body>
-                            <h3>Currently Playing: {track}</h3>
-                        </Card.Body>
-                        <Card.Body>
-                            {this.props.selectedTrack === "nothing as of yet" ?
-                                <div></div> :
-                                <div>
-                                    <h3>Time Remaining: </h3>
-                                    <h3>Minutes: {time.minutes} Seconds: {time.seconds}</h3>
-                                </div>
-                            }
-                        </Card.Body>
-                        <Card.Body>
-                            <button onClick={() => { this.previousSong() }}>
-                                Previous Song
-                            </button>
-                            {this.props.selectedTrack === "nothing as of yet" ?
-                                <h3> select a song to play</h3> :
-                                this.state.isPlaying === false ?
-                                    <button onClick={() => this.startPlaying()}>Play</button> :
-                                    <button onClick={() => this.clearInterval()}>Pause</button>}
-                            <button onClick={() => { this.nextSong() }}>
-                                Next Song
-                            </button>
-                        </Card.Body>
-                    </Card>
-                </Container>
-                {this.props.selectedTrack === "nothing as of yet" ?
-                 <div></div> : <button onClick={() => { this.songQueSetterPreStep() }}>Shuffle</button>}
                 {que === undefined ?
                     <h3>no que detected</h3>
                     : this.state.songQueList === [] ?
-                        <Container>
+                        <Container id="trackList">
                             {que.map((que) => (
                                 <Card id={que} >
                                     <Card.Body>
@@ -118,7 +99,7 @@ export default class trackSelector extends React.Component {
                                 </Card>
                             ))}
                         </Container>
-                        : <Container>
+                        : <Container id="trackList">
                             {que.map((que) => (
                                 <Card id={que} >
                                     <Card.Body>
@@ -128,6 +109,36 @@ export default class trackSelector extends React.Component {
                             ))}
                         </Container>
                 }
+                <Container id="trackSelectorContainer">
+                    <Card id="trackSelectorCard">
+                        <Card.Body id="trackSelectorBody">
+                            <h3>Currently Playing: {track}</h3>
+                            {this.props.selectedTrack === "nothing as of yet" ?
+                                <h3> select a song to play</h3> :
+                                // Did put in a div element to avoid a parent element error but a react fragment works just as well
+                                <React.Fragment>
+                                    <h3>Time Remaining: </h3>
+                                    <h3>Minutes: {time.minutes} Seconds: {time.seconds}</h3>
+                                    <button onClick={() => { this.songQueSetterPreStep() }}>Shuffle</button>
+                                </React.Fragment>
+                            }
+                            <button onClick={() => { this.previousSong() }}>
+                                Previous Song
+                            </button>
+                            {this.state.isPlaying === false ?
+                                <button onClick={() => this.startPlaying()}>Play</button> :
+                                <button onClick={() => this.clearInterval()}>Pause</button>}
+
+
+                            <button onClick={() => { this.nextSong() }}>
+                                Next Song
+                            </button>
+
+                            <ProgressBar percentage={this.state.percentage}/>
+                        </Card.Body>
+                    </Card>
+                </Container>
+
             </div>
         )
     }

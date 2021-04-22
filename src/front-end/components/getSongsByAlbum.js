@@ -14,7 +14,7 @@ export default class getSongsTable extends React.Component {
             songs: [],
             songQue: [],
             albums: [],
-            time: {minutes: 0, seconds: 0},
+            time: {minutes: 0, seconds: 0, totalTime: 0},
             selectedTrack: "nothing as of yet",
             selectedAlbum: "No Album Selected",
             playLists: []
