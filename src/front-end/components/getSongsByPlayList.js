@@ -13,7 +13,7 @@ export default class getSongsTable extends React.Component {
             songQue: [],
             selectedTrack: "nothing as of yet",
             selectedPlayList: "no selected playlist",
-            time: {minutes: 0, seconds: 0, totalTime: 0},
+            time: { minutes: 0, seconds: 0, totalTime: 0 },
             playListName: "",
             loading: false,
             formCreation: false,
@@ -25,7 +25,7 @@ export default class getSongsTable extends React.Component {
     }
 
     trackOrchestrator = (id, songs) => {
-        secondsIntoTime(id,songs).then(response => this.props.songTimeSetter(response));
+        secondsIntoTime(id, songs).then(response => this.props.songTimeSetter(response));
         this.props.onViewChange(id, songs)
         this.songQueSetterPreStep(id, songs)
     };
@@ -77,7 +77,7 @@ export default class getSongsTable extends React.Component {
             .then(alert(`Created Playlist: ' + ${this.state.playListName}
             
             Allow some time and then refresh to see new playlist`))
-         e.preventDefault(); //
+        e.preventDefault(); //
     }
 
     deletePlaylist = (playListName) => {
@@ -87,7 +87,6 @@ export default class getSongsTable extends React.Component {
             .then(alert('Removed Playlist: ' + playListName))
 
     }
-
 
     setPlayListState = (e) => {
         this.setState({ playListName: e.target.value })
@@ -102,17 +101,21 @@ export default class getSongsTable extends React.Component {
                 <div>
 
                     {this.state.formCreation === false ?
-                        <button onClick={() => {
-                            this.setState({
-                                formCreation: true
-                            })
-                        }}>Create A PlayList</button> :
-                        <div>
-                            <button onClick={() => {
+                        <button
+                            className="standardButton"
+                            onClick={() => {
                                 this.setState({
-                                    formCreation: false
+                                    formCreation: true
                                 })
-                            }}>Finished creating PlayList</button>
+                            }}>Create A PlayList</button> :
+                        <div>
+                            <button
+                                className="standardButton"
+                                onClick={() => {
+                                    this.setState({
+                                        formCreation: false
+                                    })
+                                }}>Finished creating PlayList</button>
 
                             <form onSubmit={this.createNewPlayList}>
                                 <label>
@@ -123,7 +126,6 @@ export default class getSongsTable extends React.Component {
                             </form>
                         </div>
                     }
-
                     {playLists === undefined ? (
                         <h3>no playLists detected</h3>
                     ) : (
@@ -135,12 +137,11 @@ export default class getSongsTable extends React.Component {
                             {playLists.map((playLists) => (
                                 <tr>
                                     <td key={playLists.id} id={playLists.playlist} onClick={((e) => this.selectedPlayList(e, { playLists }))}>{playLists.playlist}</td>
-                                    <td ><button onClick={()=> this.deletePlaylist(playLists.playlist)}>Remove Playlist</button></td>
+                                    <td ><button className="standardButton" onClick={() => this.deletePlaylist(playLists.playlist)}>Remove Playlist</button></td>
                                 </tr>
                             ))}
                         </table>
                     )}
-
                 </div>
                 <div>
                     <table id='Songs'>
@@ -156,10 +157,11 @@ export default class getSongsTable extends React.Component {
                             {songs.map(songs =>
                                 <tr key={songs.id}>
                                     <td>
-                                    <button
-                                        id={songs.Title}
-                                        onClick={() => { this.trackOrchestrator(songs.Title, this.state.songs) }}>
-                                        Play
+                                        <button
+                                            className="standardButton"
+                                            id={songs.Title}
+                                            onClick={() => { this.trackOrchestrator(songs.Title, this.state.songs) }}>
+                                            Play
                                     </button>
 
                                     </td>
@@ -188,7 +190,6 @@ export default class getSongsTable extends React.Component {
                                                 )}
                                             </DropdownButton>
                                         )}
-
                                     </td>
                                 </tr>
                             )}

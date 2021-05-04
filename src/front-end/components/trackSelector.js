@@ -6,6 +6,7 @@ import nextSong from '../utils/nextSong';
 import secondsIntoTime from '../utils/secondsIntoTime'
 import timeInterval from '../utils/timerInterval'
 import ProgressBar from './progressBar'
+import skipForward10Utility from '../utils/skipForward10'
 import '../styling/trackSelector.css'
 import '../styling/progressBar.css'
 
@@ -65,7 +66,6 @@ export default class trackSelector extends React.Component {
 
     setPercentage = (input) => {
         this.setState({percentage: input.percentage})
-        console.log(this.state.percentage,this.props.percentage);
     }
 
     clearInterval = () => {
@@ -73,6 +73,19 @@ export default class trackSelector extends React.Component {
         clearInterval(this.interval)
     }
 
+    skipForward10 = () => {
+        skipForward10Utility(this.state.time).then(response => this.skipOrchestrator(response))
+    }
+
+    skipOrchestrator = (input) => {
+        this.setPercentage(input.percentage);
+        this.setTime(input.time)
+    }
+
+    setTime = (input) => {
+        this.setState({ time: input.time },
+            () => { this.props.songTimeSetter(input.time) })
+    }
 
     setStateOfSongs = (input) => {
         this.setState({ songQueList: input.songList })
@@ -117,21 +130,24 @@ export default class trackSelector extends React.Component {
                                 <h3> select a song to play</h3> :
                                 // Did put in a div element to avoid a parent element error but a react fragment works just as well
                                 <React.Fragment>
-                                    <h3>Time Remaining: </h3>
-                                    <h3>Minutes: {time.minutes} Seconds: {time.seconds}</h3>
-                                    <button onClick={() => { this.songQueSetterPreStep() }}>Shuffle</button>
+                                    <h3>Time Remaining: {time.minutes}m:{time.seconds}s</h3>
+                                    <button className="standardButton" onClick={() => { this.songQueSetterPreStep() }}>Shuffle</button>
                                 </React.Fragment>
                             }
-                            <button onClick={() => { this.previousSong() }}>
+                            <button>
+                                10-s
+                            </button>
+                            <button className="standardButton" onClick={() => { this.previousSong() }}>
                                 Previous Song
                             </button>
                             {this.state.isPlaying === false ?
-                                <button onClick={() => this.startPlaying()}>Play</button> :
-                                <button onClick={() => this.clearInterval()}>Pause</button>}
-
-
-                            <button onClick={() => { this.nextSong() }}>
+                                <button className="standardButton" onClick={() => this.startPlaying()}>Play</button> :
+                                <button className="standardButton" onClick={() => this.clearInterval()}>Pause</button>}
+                            <button className="standardButton" onClick={() => { this.nextSong() }}>
                                 Next Song
+                            </button>
+                            <button onClick={() => {this.skipForward10()}}>
+                                10+s
                             </button>
 
                             <ProgressBar percentage={this.state.percentage}/>

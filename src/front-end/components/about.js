@@ -1,23 +1,17 @@
 import React from "react";
-import { Container, Card, Row } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 
 const About = () => (
   <div>
     <h1 className="title is-1">This is the About Page</h1>
-
     <Container>
-                    <Card>
-                        <Card.Body>
-                          Currently the home and about page do not offer much in the way of functionallity.
+      <Card>
+        <Card.Body>
+          The Home page offers to be a landing stage in this stage of the project. The about page offers to be an explanation of the application. The browse page offers to be the main page of the application where it is broken down into 3 pieces. The first piece is all the songs the user will have, where they will have the option to add any song to a currently existing playlist. Albums shows every album the user has and if the user clicks on any album it will load songs according to that album where they will be able to add any song to any currently existing playlist. Finally the 3rd piece is playlists where you are able to create playlists, and click on a playlist and see the songs on each playlist.
+          Each song will have the option to "play" on the first column which will enable the player at the bottom of the screen and gives some functionality to the user on the song including: shuffle, rewind 10 seconds, previous song, play/pause, next song and fast forward 10 seconds.
                         </Card.Body>
-                        <Card.Body>
-                          However the Browse page offers a music libary based on all the songs, songs by album and your own playlists
-                        </Card.Body>
-                        <Card.Body>
-                          There is a bug where next song on the browse page will only work if you have shuffled first.
-                        </Card.Body>
-                    </Card>
-                </Container>
+      </Card>
+    </Container>
   </div>
 );
 

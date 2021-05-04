@@ -113,6 +113,7 @@ export default class getSongsTable extends React.Component {
                                 <tr key={songs.id}>
                                     <td>
                                         <button
+                                        className="standardButton"
                                         id={songs.Title}
                                         onClick={() => { this.trackOrchestrator(songs.Title, this.state.songs) }}>
                                         Play
